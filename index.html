@@ -1,0 +1,80 @@
+<head>
+    <link rel="stylesheet" href="style.css">
+    <script src="break_infinity.js"></script>
+    <script src='main.js'></script>
+    <title>Infinity Clicker</title>
+</head>
+<body>
+    <h1 id='Header'>Numbers</h1>
+    <br>
+    <div id='NavButtons'>
+        <button class='NavButton' id='NumberBtn' onclick="tab('StageOne', 'NumberBtn')">
+            Numbers
+        </button>
+        <button class='NavButton' id='SkillBtn' onclick="tab('SkillTree', 'SkillBtn')">
+            Skills
+        </button>
+    </div>
+    <hr>
+    <div id='StageOne'>
+        <p id='PlayerMoney'>Your number is 0</p>
+        <p id='MoneyPerClick'>You are gaining 1 number per click</p>
+        <p id='AutoBots'>You have 0 autobots</p>
+        <hr>
+        <button class='TierButton' id='TierMult' onclick='buyTierMult()'>
+            <div>Gain 10x as many tiers!</div>
+            <div id='TierMultiplier'>Currently: 1.00x</div>
+            <div id='TierMultCost'>Cost: 1e10</div>
+        </button>
+        <br>
+        <button class='TierButton' onclick='increaseNum()'>Increase Number</button>
+        <br>
+        <input type="checkbox" id="AutoMoney">
+        <br>
+        <button class='TierButton' onclick='buyMult()'>
+            <div id='MultUpgrade'>Tier One x1.00</div>
+            <div>Cost: 10</div>
+        </button>
+        <br>
+        <input type="checkbox" id='AutoOne'>
+        <br>
+        <button class='TierButton' id='MultTwo' onclick='buyMultTwo()'>
+            <div id='TierTwo'>Tier Two x1.00</div>
+            <div>Cost: 1000</div>
+        </button>
+        <br>
+        <input type="checkbox" id='AutoTwo'>
+        <br>
+        <button class='TierButton' id='MultThree' onclick='buyTierThree()'>
+            <div id='TierThree'>Tier Three x1.00</div>
+            <div>Cost: 100000</div>
+        </button>
+        <br>
+        <input type="checkbox" id='AutoThree'>
+        <br>
+        <button class='TierButton' id='MultFour' onclick='buyTierFour()'>
+            <div id='TierFour'>Tier Four x1.00</div>
+            <div>Cost: 1e8</div>
+        </button>
+        <br>
+        <input type="checkbox" id='AutoFour'>
+        <br>
+        <button class='TierButton' id='MultFive' onclick='buyTierFive()'>
+            <div id='TierFive'>Tier Five x1.00</div>
+            <div>Cost: 1e10</div>
+        </button>
+        <br>
+        <input type="checkbox" id='AutoFive'>
+    </div>
+    <div id='SkillTree'>
+        <div id='RowOne'>
+            <button class='UpgradeBtn' id='SkillOneBtn' onclick="buySkillOne()">
+                <div>Tiers no longer reset</div>
+                <div>Previous Tiers</div>
+                <div id='SkillOneCost'>Cost: 1e15</div>
+            </button>
+        </div>
+    </div>
+    <script src='automate.js'></script>
+</body>
+<footer>Press keys 1-5 to buy the respective tier!</footer>

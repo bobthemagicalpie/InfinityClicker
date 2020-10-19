@@ -1,0 +1,189 @@
+* {
+    text-align: center;
+    font-family: monospace;
+    overflow-x: hidden;
+}
+
+body {
+    background-color: #333436;
+    margin: 0%;
+}
+
+hr {
+    width: 100%;
+    background-color: #ff4133;
+    border: none;
+    height: 1;
+}
+
+.NavButton {
+    height: 50;
+    width: 100;
+    font-size: 20;
+    transition-duration: 0.4s;
+}
+
+#NumberBtn {
+    border-color: green;
+}
+
+#NumberBtn:hover {
+    background-color: green;
+    color: black;
+    border-color: black;
+    cursor: pointer;
+}
+
+#SkillBtn {
+    border-color: purple;
+    display: none;
+}
+
+#SkillBtn:hover {
+    background-color: purple;
+    color: black;
+    border-color: black;
+    cursor: pointer;
+}
+
+#SkillTree {
+    display: none;
+}
+
+.UpgradeBtn {
+    border-color: blue;
+    transition-duration: 0.4s;
+}
+
+.UpgradeBtn:not([disabled]):hover {
+    background-color: blue;
+    color: black;
+    border-color: black;
+    cursor: pointer;
+}
+
+.TierButton {
+    transition-duration: 0.4s;
+    
+}
+
+#SkillOneBtn:disabled {
+    opacity: 0.3;
+    background-color: blue;
+    color: black;
+    border-color: black;
+}
+
+.TierButton:hover {
+    background-color: #ff4133;
+    border-color: black;
+    cursor: pointer;
+    color: black;
+}
+
+button {
+    background-color: black;
+    color: aliceblue;
+    outline: none;
+    border: 1px solid #ff4133;
+    border-radius: 6px;
+}
+
+#TierMult {
+    margin-bottom: 10
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 25%;
+    right: 25%;
+    color: #d1d1d1;
+
+}
+
+h1 {
+    color: #d1d1d1;
+    margin-bottom: 0;
+    margin-top: 10;
+}
+
+p {
+    color: #d1d1d1;
+    margin: 3px 3px;
+}
+
+
+input {
+    display: inline;
+    margin-bottom: 8
+}
+
+#MultTwo {
+    display: none;
+    
+}
+
+#MultThree {
+    display: none;
+}
+
+#MultThreeCost {
+    display: none;
+}
+
+#MultFour {
+    display: none;
+}
+
+#MultFourCost {
+    display: none;
+}
+
+#MultFive {
+    display: none;
+}
+
+#MultFiveCost {
+    display: none;
+}
+
+#MultPerClick {
+    display: none;
+}
+
+#MultTwoCost {
+    display: none;
+}
+
+#AutoMoney {
+    display: none;
+}
+
+#AutoOne {
+    display: none;
+}
+
+#AutoTwo {
+    display: none;
+}
+
+#AutoThree {
+    display: none;
+}
+
+#AutoFour {
+    display: none;
+}
+
+#AutoFive {
+    display: none;
+}
+
+#AutoBots {
+    display: none;
+}
+
+#TierMultiplier {
+    display: none;
+}
