@@ -1,7 +1,6 @@
 <head>
     <link rel="stylesheet" href="style.css">
     <script src="break_infinity.js"></script>
-    <script src='main.js'></script>
     <title>Infinity Clicker</title>
 </head>
 <body>
@@ -13,6 +12,9 @@
         </button>
         <button class='NavButton' id='SkillBtn' onclick="tab('SkillTree', 'SkillBtn')">
             Skills
+        </button>
+        <button class='NavButton' id='OptnBtn' onclick="tab('Options', 'OptnBtn')">
+            Options
         </button>
     </div>
     <hr>
@@ -65,16 +67,43 @@
         </button>
         <br>
         <input type="checkbox" id='AutoFive'>
+        <div class='ProgContainer'>
+            <div id='ProgBackground'>
+                <div id='ProgBar'>
+                    <div id="ProgText">0%</div>
+                </div>
+            </div>
+            <div class='TooltipContainer'>
+                <span class='Tooltip' id="TooltipText">Progress to tier two</span>
+            </div>
+        </div>
     </div>
     <div id='SkillTree'>
         <div id='RowOne'>
             <button class='UpgradeBtn' id='SkillOneBtn' onclick="buySkillOne()">
                 <div>Tiers no longer reset</div>
-                <div>Previous Tiers</div>
+                <div>previous Tiers</div>
                 <div id='SkillOneCost'>Cost: 1e15</div>
             </button>
+            <!--<button class='UpgradeBtn'>
+                <div>Autobuyers now buy max</div>
+                <div>Cost: 1e50</div>
+            </button>-->
         </div>
     </div>
+    <div id='Options'>
+        <button class='OptionButton' id='Import' onclick='importSave()'>
+            Import
+        </button>
+        <button class='OptionButton' id='Export' onclick='exportSave()'>
+            Export
+        </button>
+        <button class='OptionButton' id='Reset' onclick='resetGame()'>
+            Reset
+        </button>
+    </div>
+    <script src='main.js'></script>
+    <script src='filesaver.js'></script>
     <script src='automate.js'></script>
 </body>
 <footer>Press keys 1-5 to buy the respective tier!</footer>

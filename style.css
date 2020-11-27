@@ -4,6 +4,55 @@
     overflow-x: hidden;
 }
 
+
+.ProgContainer {
+    position: relative;
+    display: inline-block;
+}
+
+.ProgContainer .Tooltip {
+    height: 30px;
+    width: 150px;
+    background-color: black;
+    color: white;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 10px;
+    border-width: 0;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    right: 0;
+    margin: auto;
+    bottom: 60;
+    visibility:hidden;
+    opacity: 0;
+    transition: opacity, 0.3s;
+
+}
+
+.ProgContainer:hover .Tooltip {
+    visibility: visible;
+    opacity: 0.8;
+}
+
+#ProgText:hover {
+    cursor: default;
+}
+
+/*.ProgContainer .Tooltip::after {
+    content: "";
+    position: absolute;
+    border-width: 5px;
+    border-style: solid;
+    border-color: white transparent transparent transparent;
+    width: 0;
+    height: 0;
+    display: block;
+    top: 100%;
+    
+}*/
+
 body {
     background-color: #333436;
     margin: 0%;
@@ -24,11 +73,11 @@ hr {
 }
 
 #NumberBtn {
-    border-color: green;
+    
 }
 
 #NumberBtn:hover {
-    background-color: green;
+    background-color: #ff4133;
     color: black;
     border-color: black;
     cursor: pointer;
@@ -46,17 +95,48 @@ hr {
     cursor: pointer;
 }
 
+#OptnBtn {
+    border-color: chartreuse;
+}
+
+#OptnBtn:hover {
+    cursor: pointer;
+    background-color: chartreuse;
+    color: black;
+    border-color: black;
+}
+
 #SkillTree {
     display: none;
 }
 
-.UpgradeBtn {
-    border-color: blue;
+#Options {
+    display: none;
+}
+
+.OptionButton {
+    width: 100;
+    height: 50;
+    font-size: 20;
+    border-color: chartreuse;
+}
+
+.OptionButton:hover {
+    background-color: chartreuse;
+    color: black;
     transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.UpgradeBtn {
+    border-color: purple;
+    transition-duration: 0.4s;
+    height: 49;
+    width: 168;
 }
 
 .UpgradeBtn:not([disabled]):hover {
-    background-color: blue;
+    background-color: purple;
     color: black;
     border-color: black;
     cursor: pointer;
@@ -68,8 +148,8 @@ hr {
 }
 
 #SkillOneBtn:disabled {
-    opacity: 0.3;
-    background-color: blue;
+    opacity: ;
+    background-color: purple;
     color: black;
     border-color: black;
 }
@@ -87,10 +167,35 @@ button {
     outline: none;
     border: 1px solid #ff4133;
     border-radius: 6px;
+    overflow: hidden;
 }
 
 #TierMult {
     margin-bottom: 10
+}
+
+#ProgBackground {
+    background-color: white;
+    width: 65%;
+    height: 30px;
+    border-radius: 50px;
+    border: 3px solid;
+    border-color: black;
+    position: fixed;
+    bottom: 15;
+    left: 0;
+    right: 0;
+    margin: auto;
+    
+}
+
+#ProgBar {
+    width: 0%;
+    height: 100%;
+    background-color: #ff4133;
+    transition-duration: 0.4s;
+    color: black;
+    font-size: 25
 }
 
 footer {

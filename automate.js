@@ -56,6 +56,10 @@ function autoBuy() {
         }
     }
     
+    
+    if(autoMoney.checked) {
+        increaseNum()
+    }
     if(autoFive.checked) {
         buyTierFive()
     }
@@ -71,9 +75,7 @@ function autoBuy() {
     if(autoOne.checked) {
         buyMult()
     }
-    if(autoMoney.checked) {
-        increaseNum()
-    }
+
     
     checkAutoBot()
     unlockAuto()

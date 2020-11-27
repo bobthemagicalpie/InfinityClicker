@@ -1,11 +1,9 @@
 /*TODO: implement prestige
         add bulk buy
-        add saving
 
 
 
 */
-
 
 let player = {
     number: new Decimal(0),
@@ -30,40 +28,116 @@ let player = {
     version: 0.1
 }
 
-let playerSave = JSON.parse(localStorage.getItem("PlayerSave"))
+let playerSave = null;
 
-if(playerSave !== null) {
-    player.number = new Decimal(playerSave.number)
-    player.tierOne = new Decimal(playerSave.tierOne)
-    player.numPerClick = new Decimal(playerSave.numPerClick)
-    player.tierTwo = new Decimal(playerSave.tierTwo)
-    player.tierThree = new Decimal(playerSave.tierThree)
-    player.tierFour = new Decimal(playerSave.tierFour)
-    player.tierFive = new Decimal(playerSave.tierFive)
-    player.tierSix = new Decimal(playerSave.tierSix)
-    player.bulkBuy = new Decimal(playerSave.bulkBuy)
-    player.bulkBuyCost = new Decimal(playerSave.bulkBuyCost)
-    player.autoBots = new Decimal(playerSave.autoBots)
-    player.unusedAutos = new Decimal(playerSave.unusedAutos)
-    player.tierMult = new Decimal(playerSave.tierMult)
-    player.tierMultCost = new Decimal(playerSave.tierMultCost)
-    player.skills = playerSave.skills
-    player.tierTwoUnlocked = playerSave.tierTwoUnlocked
-    player.tierThreeUnlocked = playerSave.tierThreeUnlocked
-    player.tierFourUnlocked = playerSave.tierFourUnlocked
-    player.tierFiveUnlocked = playerSave.tierFiveUnlocked
+let tierOneCost = new Decimal(10)
+let tierTwoCost = new Decimal(1000)
+let tierThreeCost = new Decimal(1e5)
+let tierFourCost = new Decimal(1e8)
+let tierFiveCost = new Decimal(1e10)
+
+let saveCheck = localStorage.getItem("PlayerSave")
+
+function isJson(item) {
+    try {
+        JSON.parse(item)
+    } catch(e) {
+        return false;
+    }
+    return true;
+}
+
+let playerSaveB64 = localStorage.getItem("PlayerSave")
+
+if (saveCheck != null && isJson(saveCheck)) {
+    playerSaveB64 = btoa(saveCheck)
+    saveGame()
+}
+
+if(playerSaveB64 != null) {
+    let playerSaveJSON = atob(playerSaveB64)
+    playerSave = JSON.parse(playerSaveJSON)
+}
+
+
+function loadGame() {
+    if(playerSave !== null && playerSave.numPerClick !== undefined) {
+        player.number = new Decimal(playerSave.number)
+        player.tierOne = new Decimal(playerSave.tierOne)
+        player.numPerClick = new Decimal(playerSave.numPerClick)
+        player.tierTwo = new Decimal(playerSave.tierTwo)
+        player.tierThree = new Decimal(playerSave.tierThree)
+        player.tierFour = new Decimal(playerSave.tierFour)
+        player.tierFive = new Decimal(playerSave.tierFive)
+        player.tierSix = new Decimal(playerSave.tierSix)
+        player.bulkBuy = new Decimal(playerSave.bulkBuy)
+        player.bulkBuyCost = new Decimal(playerSave.bulkBuyCost)
+        player.autoBots = new Decimal(playerSave.autoBots)
+        player.unusedAutos = new Decimal(playerSave.unusedAutos)
+        player.tierMult = new Decimal(playerSave.tierMult)
+        player.tierMultCost = new Decimal(playerSave.tierMultCost)
+        player.skills = playerSave.skills
+        player.tierTwoUnlocked = playerSave.tierTwoUnlocked
+        player.tierThreeUnlocked = playerSave.tierThreeUnlocked
+        player.tierFourUnlocked = playerSave.tierFourUnlocked
+        player.tierFiveUnlocked = playerSave.tierFiveUnlocked
+    } else if(playerSave !== null && playerSave.numPerClick === undefined) {
+        alert("No save detected, using previous save...")
+    }
+}
+
+loadGame()
+
+function exportSave() {
+    saveGame()
+    let exported_save = localStorage.getItem("PlayerSave")
+    const blob = new Blob([exported_save], 
+                        {type: "text/plain;charset=utf-8"})
+    saveAs(blob, "save.txt")
+    
+}
+
+function importSave() {
+    let imported_save = prompt('Paste your save here:')
+    playerSave = JSON.parse(atob(imported_save))
+    loadGame()
+    tab('StageOne', 'NumberBtn')
+    saveGame()
 }
 
 function saveGame() {
-    localStorage.setItem("PlayerSave", JSON.stringify(player))
+    localStorage.setItem("PlayerSave", btoa(JSON.stringify(player)))
+/*    playerSave = JSON.parse(atob(localStorage.getItem("PlayerSave")))*/
 }
 
-window.setInterval(saveGame, 3000)
+function resetGame() {
+    let resetConfirm = confirm("Are you sure you would like to reset?")
+    if(resetConfirm){
+        localStorage.removeItem("PlayerSave")
+        location.reload()
+    }
+    
+}
 
-skillOneBought = false
+/*window.setInterval(saveGame, 3000)*/
+
+//if(skillTwo == true) {
+//    amountCanBuy = player.number.div(1e10)
+//    player.number.minus(1e10.times(amountCanBuy))
+//    player.tierFive = player.tierFive.plus(player.tierSix.times(amountCanBuy))
+//}
+
+let fiveCanBuy = 1
+let fourCanBuy = 1
+let threeCanBuy = 1
+let twoCanBuy = 1
+let oneCanBuy = 1
+
+
+let skillOneBought = false
+let skillTwoBought = false
 
 document.addEventListener('keydown', function(event){
-    console.log(event.key)
     if(event.key == 1) {
         buyMult()
     } else if(event.key == 2) {
@@ -82,6 +156,7 @@ function tab(id, btnId) {
     btnId = document.getElementById(btnId)
     document.getElementById('StageOne').style.display = 'none'
     document.getElementById('SkillTree').style.display = 'none'
+    document.getElementById('Options').style.display = 'none'
     id.style.display = 'block'
     document.getElementById('Header').innerHTML = btnId.innerHTML
 }
@@ -89,8 +164,10 @@ function tab(id, btnId) {
 function checkSkills(skill) {
     if(skill == 'SkillOne') {
         skillOneBought = true
-    } else {
-        skillOneBought = false
+    } 
+    
+    if(skill == 'SkillTwo') {
+        skillTwoBought = true
     }
 }
 
@@ -119,67 +196,67 @@ function increaseNum() {
 }
 
 function buyMult() {
-    if(player.number.gte(10)) {
-        player.tierOne = player.tierOne.plus(player.tierTwo.times(player.tierMult))
-        player.number = player.number.minus(10)
+    if(player.number.gte(tierOneCost.times(oneCanBuy))) {
+        player.tierOne = player.tierOne.plus((player.tierTwo.times(player.tierMult)).times(oneCanBuy))
+        player.number = player.number.minus(tierOneCost.times(oneCanBuy))
     }
 }
 
 function buyMultTwo() {
     if(skillOneBought == false) {
-        if(player.number.gte(1000)) {
-            player.tierTwo = player.tierTwo.plus(player.tierThree.times(player.tierMult))
+        if(player.number.gte(tierTwoCost.times(twoCanBuy))) {
+            player.tierTwo = player.tierTwo.plus((player.tierThree.times(player.tierMult)).times(twoCanBuy))
             player.tierOne = new Decimal(1)
-            player.number = player.number.minus(1000)
+            player.number = player.number.minus(tierTwoCost.times(twoCanBuy))
         }
-    } else if(skillOneBought == true) {
-        player.tierTwo = player.tierTwo.plus(player.tierThree.times(player.tierMult))
-        player.number = player.number.minus(1000)
+    } else if(skillOneBought == true && player.number.gte(tierTwoCost.times(twoCanBuy))) {
+        player.tierTwo = player.tierTwo.plus((player.tierThree.times(player.tierMult)).times(twoCanBuy))
+        player.number = player.number.minus(tierTwoCost.times(twoCanBuy))
     }
 }
 
 function buyTierThree() {
     if(skillOneBought == false) {
-        if(player.number.gte(1e5)) {
-            player.tierThree = player.tierThree.plus(player.tierFour.times(player.tierMult))
-            player.number = player.number.minus(1e5)
+        if(player.number.gte(tierThreeCost)) {
+            player.tierThree = player.tierThree.plus((player.tierFour.times(player.tierMult)).times(threeCanBuy))
+            player.number = player.number.minus(tierThreeCost.times(threeCanBuy))
             player.tierTwo = new Decimal(1)
             player.tierOne = new Decimal(1)
         }
-    } else if(skillOneBought == true) {
-        player.tierThree = player.tierThree.plus(player.tierFour.times(player.tierMult))
-        player.number = player.number.minus(1e5)
+    } else if(skillOneBought == true && player.number.gte(tierThreeCost.times(threeCanBuy))) {
+        player.tierThree = player.tierThree.plus((player.tierFour.times(player.tierMult)).times(threeCanBuy))
+        player.number = player.number.minus(tierThreeCost.times(threeCanBuy))
     }
 }
 
 function buyTierFour() {
     if(skillOneBought == false) {
-        if(player.number.gte(1e8)) {
-            player.tierFour = player.tierFour.plus(player.tierFive.times(player.tierMult))
+        if(player.number.gte(tierFourCost.times(fourCanBuy))) {
+            player.tierFour = player.tierFour.plus((player.tierFive.times(player.tierMult)).times(fourCanBuy))
             player.tierThree = new Decimal(1)
             player.tierTwo = new Decimal(1)
             player.tierOne = new Decimal(1)
-            player.number = player.number.minus(1e8)
+            player.number = player.number.minus(tierFourCost.times(fourCanBuy))
         }
-    } else if(skillOneBought == true) {
-        player.tierFour = player.tierFour.plus(player.tierFive.times(player.tierMult))
-        player.number = player.number.minus(1e8)
+    } else if(skillOneBought == true && player.number.gte(tierFourCost.times(fourCanBuy))) {
+        player.tierFour = player.tierFour.plus((player.tierFive.times(player.tierMult)).times(fourCanBuy))
+        player.number = player.number.minus(tierFourCost.times(fourCanBuy))
     }
 }
 
 function buyTierFive() {
     if(skillOneBought == false) {
-        if(player.number.gte(1e10)){
-            player.tierFive = player.tierFive.plus(player.tierSix.times(player.tierMult))
+        if(player.number.gte(tierFiveCost.times(fiveCanBuy))){
+            player.tierFive = player.tierFive.plus((player.tierSix.times(player.tierMult)).times(fiveCanBuy))
             player.tierFour = new Decimal(1)
             player.tierThree = new Decimal(1)
             player.tierTwo = new Decimal(1)
             player.tierOne = new Decimal(1)
-            player.number = player.number.minus(1e10)
+            player.number = player.number.minus(tierFiveCost.times(fiveCanBuy))
         }
-    } else if(skillOneBought == true) {
-        player.tierFive = player.tierFive.plus(player.tierSix.times(player.tierMult))
-        player.number = player.number.minus(1e10)
+    } else if(skillOneBought == true && player.number.gte(tierFiveCost.times(fiveCanBuy))) {
+        player.tierFive = player.tierFive.plus((player.tierSix.times(player.tierMult)).times(fiveCanBuy))
+        player.number = player.number.minus(tierFiveCost.times(fiveCanBuy))
     }
 }
 
@@ -196,8 +273,15 @@ function buySkillOne() {
         player.skills.push("SkillOne")
         document.getElementById('SkillOneCost').innerHTML = 'Bought!'
         document.getElementById('SkillOneBtn').disabled = true
+        player.number = player.number.minus(1e15)
     }
-    console.log('working')
+}
+
+function buySkillTwo() {
+    if(player.number.gte("1e50") && skillTwoBought == false) {
+        player.skills.push("SkillTwo")
+        player.number = player.number.minus("1e50")
+    }
 }
 
 //if(skillTwo == true) {
@@ -206,24 +290,34 @@ function buySkillOne() {
 //    player.tierFive = player.tierFive.plus(player.tierSix.times(amountCanBuy))
 //}
 
+
+//This function is absolutely fucking disgusting and i plan to fix it
 function update() {
-    if(player.tierOne.greaterThan(10) || player.tierTwoUnlocked) {
+    if(skillTwoBought) {
+        fiveCanBuy = player.number.div(1e10).floor()
+        fourCanBuy = player.number.div(1e8).floor()
+        threeCanBuy = player.number.div(1e5).floor()
+        twoCanBuy = player.number.div(1000).floor()
+        oneCanBuy = player.number.div(10).floor()
+    }
+    
+    if(player.tierOne.gte(10) || player.tierTwoUnlocked) {
         showButton('MultTwo')
         player.tierTwoUnlocked = true
     }
-    if(player.tierTwo.greaterThan(10) || player.tierThreeUnlocked) {
+    if(player.tierTwo.gte(10) || player.tierThreeUnlocked) {
         showButton('MultThree')
         player.tierThreeUnlocked = true
     }
-    if(player.tierThree.greaterThan(10) || player.tierFourUnlocked) {
+    if(player.tierThree.gte(10) || player.tierFourUnlocked) {
         showButton('MultFour')
         player.tierFourUnlocked = true
     }
-    if(player.tierFour.greaterThan(10) || player.tierFiveUnlocked) {
+    if(player.tierFour.gte(10) || player.tierFiveUnlocked) {
         showButton('MultFive')
         player.tierFiveUnlocked = true
     }
-    if(player.number.greaterThan(1e6)) {
+    if(player.number.gte(1e6)) {
         document.getElementById('PlayerMoney').innerHTML = 'Your number is ' + (player.number.mantissa).toFixed(2) + 'e' + player.number.exponent
     } else {
         document.getElementById('PlayerMoney').innerHTML = 'Your number is ' + player.number.toFixed(2)
@@ -271,6 +365,50 @@ function update() {
     document.getElementById('AutoBots').innerHTML = 'You have ' + player.unusedAutos + ' unused autobots'
     document.getElementById('TierMultCost').innerHTML = 'Cost: ' + player.tierMultCost.mantissa.toFixed(2) + 'e' + player.tierMultCost.exponent
     
+    updateBar()
+}
+
+function updateBar() {
+    let progBar = document.getElementById("ProgBar")
+    let progText = document.getElementById("ProgText")
+    let tooltipText = document.getElementById("TooltipText")
+    let width = 0;
+    if(!player.tierTwoUnlocked) {
+        width = player.tierOne.times(10)
+        tooltipText.innerHTML = "Tier two unlock"
+    }
+    
+    if(player.tierTwoUnlocked && !player.tierThreeUnlocked) {
+        width = player.tierTwo.times(10)
+        tooltipText.innerHTML = "Tier three unlock"
+        
+        
+    }
+    
+    if(player.tierThreeUnlocked && !player.tierFourUnlocked) {
+        width = player.tierThree.times(10)
+        tooltipText.innerHTML = "Tier four unlock"
+    }
+    if(player.tierFourUnlocked && !player.tierFiveUnlocked) {
+        width = player.tierFour.times(10)
+        tooltipText.innerHTML = "Tier five unlock"
+    }
+    if(player.tierFiveUnlocked) {
+        if(player.tierFive.gte(10)) {
+            width = 100
+        } else {
+            width = player.tierFive.times(10) 
+        }
+        
+        tooltipText.innerHTML = "Skills and autobots unlock"
+        
+    }
+    
+    barWidth = width.toString() + '%'
+    progText.innerHTML = barWidth
+    progBar.style.width = barWidth
+    
+
 }
 
 window.setInterval(update, 50)
