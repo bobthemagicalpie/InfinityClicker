@@ -119,7 +119,7 @@ function resetGame() {
     
 }
 
-/*window.setInterval(saveGame, 3000)*/
+window.setInterval(saveGame, 3000)
 
 //if(skillTwo == true) {
 //    amountCanBuy = player.number.div(1e10)
