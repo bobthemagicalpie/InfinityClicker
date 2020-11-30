@@ -4,7 +4,6 @@
     overflow-x: hidden;
 }
 
-
 .ProgContainer {
     position: relative;
     display: inline-block;
@@ -28,8 +27,11 @@
     visibility:hidden;
     opacity: 0;
     transition: opacity, 0.3s;
+    overflow: hidden;
 
 }
+
+
 
 .ProgContainer:hover .Tooltip {
     visibility: visible;
@@ -40,18 +42,22 @@
     cursor: default;
 }
 
-/*.ProgContainer .Tooltip::after {
+.ProgContainer .Tooltip::after {
     content: "";
-    position: absolute;
+    position: fixed;
     border-width: 5px;
     border-style: solid;
-    border-color: white transparent transparent transparent;
-    width: 0;
-    height: 0;
-    display: block;
-    top: 100%;
+    border-color: black transparent transparent transparent;
+    width: 0px;
+    left: 0;
+    right:0;
+    bottom: 50;
+    margin-left: auto;
+    margin-right: auto;
     
-}*/
+}
+
+
 
 body {
     background-color: #333436;
@@ -133,6 +139,7 @@ hr {
     transition-duration: 0.4s;
     height: 49;
     width: 168;
+    
 }
 
 .UpgradeBtn:not([disabled]):hover {

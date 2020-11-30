@@ -113,13 +113,14 @@ function saveGame() {
 function resetGame() {
     let resetConfirm = confirm("Are you sure you would like to reset?")
     if(resetConfirm){
+        window.clearInterval(saveLoop)
         localStorage.removeItem("PlayerSave")
         location.reload()
     }
     
 }
 
-window.setInterval(saveGame, 3000)
+saveLoop = window.setInterval(saveGame, 3000)
 
 //if(skillTwo == true) {
 //    amountCanBuy = player.number.div(1e10)
